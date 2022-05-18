@@ -20,7 +20,9 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+#if newgrounds
 import io.newgrounds.NG;
+#end
 import lime.app.Application;
 import openfl.Assets;
 
@@ -54,13 +56,13 @@ class TitleState extends MusicBeatState
 		//Note to self though, this will break "destroyOnNotUse" so remember to disable persist on any graphics you want to destroy when not being used.
 
 		#if polymod
-		polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
+	//	polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
 		#end
 		
-		#if sys
+		/*#if sys
 		if (!sys.FileSystem.exists(Sys.getCwd() + "/assets/replays"))
 			sys.FileSystem.createDirectory(Sys.getCwd() + "/assets/replays");
-		#end
+		#end*/
 
 		@:privateAccess
 		{
@@ -300,6 +302,7 @@ class TitleState extends MusicBeatState
 
 		if (pressedEnter && !transitioning && skippedIntro)
 		{
+			#if newgrounds
 			#if !switch
 			NGio.unlockMedal(60960);
 
@@ -307,7 +310,8 @@ class TitleState extends MusicBeatState
 			if (Date.now().getDay() == 5)
 				NGio.unlockMedal(61034);
 			#end
-
+                        #end
+				
 			titleText.animation.play('press');
 
 			FlxG.camera.flash(FlxColor.WHITE, 1);
