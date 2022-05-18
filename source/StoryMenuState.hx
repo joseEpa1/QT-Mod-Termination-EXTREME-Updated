@@ -213,7 +213,11 @@ class StoryMenuState extends MusicBeatState
 		trace("Line 165");
 
 		PlayState.cutsceneSkip = false; //Don't ask.
-
+		
+                #if android
+		addVirtualPad(FULL, A_B);
+		#end
+			
 		super.create();
 	}
 
