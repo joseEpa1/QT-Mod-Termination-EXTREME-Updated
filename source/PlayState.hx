@@ -1807,7 +1807,16 @@ class PlayState extends MusicBeatState
 		kadeEngineWatermark.cameras = [camHUD];
 		if (loadRep)
 			replayTxt.cameras = [camHUD];
-
+				
+                #if android
+	        addAndroidControls();
+	        #end
+                
+			
+                if (curSong == 'chaos') {
+		    addVirtualPad(NONE, A);
+		}
+				
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
@@ -2053,7 +2062,11 @@ class PlayState extends MusicBeatState
 	var luaWiggles:Array<WiggleEffect> = [];
 
 	function startCountdown():Void
-	{
+	{    
+		#if android
+		androidc.visible = true;
+	        #end
+			
 		inCutscene = false;
 
 		generateStaticArrows(0);
@@ -4291,9 +4304,11 @@ class PlayState extends MusicBeatState
 						StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
 						if (SONG.validScore)
-						{
+						{      
+							#if newgrounds
 							NGio.unlockMedal(60961);
 							Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
+						        #end
 						}
 
 						FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
@@ -4721,7 +4736,7 @@ class PlayState extends MusicBeatState
 			if(FlxG.keys.justPressed.SPACE)
 				trace('butttonpressed');
 
-			if(FlxG.keys.justPressed.SPACE && !bfDodging && bfCanDodge){
+			if (controls.ACCEPT && canDodge)
 				trace('DODGE START!');
 				bfDodging = true;
 				bfCanDodge = false;
